@@ -70,3 +70,37 @@ TokenSpan offers a simple API to analyze any text file and estimate whether dict
 Sending the full dictionary encoding map with every prompt **adds overhead** and can actually **increase token usage**. However, if you compute the dictionary once and **reuse it across multiple queries** — by embedding it in the system prompt or agent memory — you can **significantly reduce token cost**, especially in domains with repetitive phrasing or specialized terminology.
 
 This approach works best when interacting with models on focused tasks, where the same phrases and structures occur frequently.
+
+## Usage Example
+
+```go
+package main
+
+import (
+    "fmt"
+    "log"
+
+    "github.com/AlexsanderHamir/TokenSpan"
+)
+
+func main() {
+    // Configure your analysis: file path, model name, phrase length (e.g., 2 tokens)
+    cfg := promptfuse.Config{
+        FilePath:     "example.txt",
+        ModelName:    "gpt-4",
+        PhraseLength: 2,
+    }
+
+    // Analyze the prompt file for repeated phrases and savings
+    savingsMap, totalSavings, err := cfg.Analyze()
+    if err != nil {
+        log.Fatalf("Failed to analyze: %v", err)
+    }
+
+    fmt.Printf("Total token savings potential: %d\n", totalSavings)
+    fmt.Println("Repeated phrases and their savings:")
+    for phrase, savings := range savingsMap {
+        fmt.Printf("Phrase: %q, Savings: %d\n", phrase, savings)
+    }
+}
+```
