@@ -85,7 +85,7 @@ import (
 
 func main() {
     // Configure your analysis: file path, model name, phrase length (e.g., 2 tokens)
-    cfg := promptfuse.Config{
+    cfg := TokenSpan.Config{
         FilePath:     "example.txt",
         ModelName:    "gpt-4",
         PhraseLength: 2,
@@ -103,4 +103,18 @@ func main() {
         fmt.Printf("Phrase: %q, Savings: %d\n", phrase, savings)
     }
 }
+```
+
+## 📥 Installation
+
+To install TokenSpan, run:
+
+```bash
+go get github.com/AlexsanderHamir/TokenSpan
+```
+
+Then import it in your Go project:
+
+```go
+import "github.com/AlexsanderHamir/TokenSpan"
 ```
