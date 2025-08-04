@@ -55,7 +55,7 @@ Each dictionary entry requires a small fixed token cost:
 
 You start to save tokens only when a phrase appears more than 4 times, and every additional repetition adds to your savings.
 
-## 🚀 Example Compression Potential
+## 🚀 Tested Compression Results
 
 - Raw prompt size: 8,019 tokens
 - Target size (optimized): 7,138 tokens
