@@ -1,60 +1,64 @@
+# PromptFuse: A Simple Token Compression Technique
+
 ## 🔢 THE FORMULA: `Saved = (2 × X) - (X + 4)`
 
-**PromptFuse** is built on a simple but powerful idea: compressing token usage by substituting **frequently repeated phrases** with a single token code.
+PromptFuse is based on a straightforward idea:
+**compress token usage by substituting frequently repeated phrases with a single-token code**.
 
-Take a common two-word phrase like `"Microsoft Designer"`, which typically spans **2 tokens**. If it appears **X** times in a prompt, it costs:
+For example, consider a common two-token phrase like `"Microsoft Designer"`.
+If it appears **X** times in a prompt, the original token cost is:
 
 ```
 Original cost: 2 × X tokens
 ```
 
-By assigning it a one-token alias (e.g. `"§0"`), each occurrence now costs **1 token**, plus a small **dictionary overhead** to define the mapping:
+By assigning a single-token alias (e.g., `"§0"`), each occurrence now costs **1 token**, plus a small dictionary overhead to define this mapping:
 
 ```
-New cost: X (usages) + 4 (dictionary entry)
+New cost: X (usages) + 4 (dictionary entry overhead)
 ```
 
-So the total **token savings** becomes:
+So, the total token savings are:
 
 ```
 Saved = (2 × X) - (X + 4)
 ```
 
-For example, if `"Microsoft Designer"` appears 15 times:
+For instance, if `"Microsoft Designer"` appears 15 times:
 
 ```
-Saved = (2 × 15) - (15 + 4) = 30 - 19 = ✅ 11 tokens saved
+Saved = (2 × 15) - (15 + 4) = 30 - 19 = 11 tokens saved
 ```
 
-This can add up quickly in long prompts.
+Over many repeated phrases, this can add up significantly. You might think such repetition is rare, but common short phrases like `", and"`—which counts as two tokens—occur frequently in large prompts, contributing to meaningful savings.
 
-### 🎯 Why Focus on Two-Token Phrases?
+### 🎯 Why focus on two-token phrases?
 
-- Replacing **1 token** with another doesn’t help.
-- Replacing **3+ tokens** offers more savings but occurs less often.
-- **2-token sequences** hit the sweet spot: they're common enough to find and compress, and large enough to matter.
+- Single-token replacements don’t reduce token counts.
+- Phrases longer than two tokens save more but appear less frequently.
+- Two-token phrases strike a balance — common enough to compress, large enough to matter.
 
-PromptFuse targets these high-frequency 2-token spans for maximum impact with minimal complexity.
+PromptFuse targets these high-frequency two-token sequences for simple yet effective compression.
 
 ### 📦 Dictionary Encoding Overhead
 
-Each dictionary entry incurs a small token cost, composed of:
+Each dictionary entry requires a small fixed token cost:
 
-- **1 token** for the **replacement code** (e.g., `§a`, `@b`, etc.)
-  _Note:_ Using numeric characters in codes may cause tokenization to split tokens more frequently, potentially increasing dictionary cost.
+- **1 token** for the replacement code (e.g., `§a`, `@b`)
+  _Note: Using digits can increase token splits, raising overhead._
 
-- **1 token** for the **separator** symbol (such as `→` or `:`)
+- **1 token** for the separator (e.g., `→`, `:`)
 
-- **2 tokens** for the **original two-word phrase** being replaced
+- **2 tokens** for the original phrase
 
-**Total overhead per dictionary entry:** approximately **4 tokens**
+**Total overhead per dictionary entry: approximately 4 tokens**
 
-**Total: \~4 tokens** per dictionary entry
+You start to save tokens only when a phrase appears more than 4 times, and every additional repetition adds to your savings.
 
-You start saving tokens once the phrase appears **more than 4 times**. After that, each extra repetition adds to your net gain.
+## 🚀 Example Compression Potential
 
-## 🚀 Performance Goals
+- Raw prompt size: 8,019 tokens
+- Target size (optimized): 7,138 tokens
+- Savings: 881 tokens (\~11.0% reduction)
 
-- **Raw Prompt Size:** 8,019 tokens
-- **Target (Optimized):** 7,138 tokens
-- **Token Savings:** 881 tokens (~11.0% reduction)
+This approach is a concept for efficient prompt token compression and could be extended or integrated into tooling for token-aware prompt optimization.
