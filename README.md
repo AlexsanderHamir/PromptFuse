@@ -1,11 +1,13 @@
 # TokenSpan: A Simple Token Compression Technique
 
+> **Note:** This project is an experiment focused on introducing a different way to think about prompt token compression—using dictionary encoding of repeated phrases—rather than fully implementing a complete compression system from scratch. It aims to explore the concept and provide a simple API to estimate token savings, serving as a foundation for further development.
+
 ## 🔢 THE FORMULA: `Saved = (2 × X) - (X + 4)`
 
-TokenSpan is based on a straightforward idea:
+TokenSpan is based on a straightforward idea:  
 **compress token usage by substituting frequently repeated phrases with a single-token code**.
 
-For example, consider a common two-token phrase like `"Microsoft Designer"`.
+For example, consider a common two-token phrase like `"Microsoft Designer"`.  
 If it appears **X** times in a prompt, the original token cost is:
 
 ```
