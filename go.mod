@@ -1,4 +1,4 @@
-module github.com/AlexsanderHamir/PromptFuse
+module github.com/AlexsanderHamir/TokenSpan
 
 go 1.24.3
 

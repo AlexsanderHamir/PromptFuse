@@ -1,8 +1,8 @@
-# PromptFuse: A Simple Token Compression Technique
+# TokenSpan: A Simple Token Compression Technique
 
 ## 🔢 THE FORMULA: `Saved = (2 × X) - (X + 4)`
 
-PromptFuse is based on a straightforward idea:
+TokenSpan is based on a straightforward idea:
 **compress token usage by substituting frequently repeated phrases with a single-token code**.
 
 For example, consider a common two-token phrase like `"Microsoft Designer"`.
@@ -38,8 +38,6 @@ Over many repeated phrases, this can add up significantly. You might think such 
 - Phrases longer than two tokens save more but appear less frequently.
 - Two-token phrases strike a balance — common enough to compress, large enough to matter.
 
-PromptFuse targets these high-frequency two-token sequences for simple yet effective compression.
-
 ### 📦 Dictionary Encoding Overhead
 
 Each dictionary entry requires a small fixed token cost:
@@ -62,3 +60,13 @@ You start to save tokens only when a phrase appears more than 4 times, and every
 - Savings: 881 tokens (\~11.0% reduction)
 
 This approach is a concept for efficient prompt token compression and could be extended or integrated into tooling for token-aware prompt optimization.
+
+## 🛠️ Small API to Estimate Compression Benefits
+
+TokenSpan offers a simple API to analyze any text file and estimate whether dictionary compression would save tokens. It identifies frequently repeated phrases and computes potential token savings, helping you decide if applying dictionary encoding is worthwhile before transforming your prompts.
+
+## 🔁 Shared Codes for Compression
+
+Sending the full dictionary encoding map with every prompt **adds overhead** and can actually **increase token usage**. However, if you compute the dictionary once and **reuse it across multiple queries** — by embedding it in the system prompt or agent memory — you can **significantly reduce token cost**, especially in domains with repetitive phrasing or specialized terminology.
+
+This approach works best when interacting with models on focused tasks, where the same phrases and structures occur frequently.
