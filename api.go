@@ -16,10 +16,9 @@ type TokenInfo struct {
 }
 
 type Config struct {
-	FilePath      string
-	ModelName     string
-	PhraseLength  int
-	DictEntryCost int // Optional; defaults to 4 if 0
+	FilePath     string
+	ModelName    string
+	PhraseLength int
 }
 
 // Analyze tokenizes the input file, identifies repeated phrases of the configured length,
@@ -30,18 +29,14 @@ type Config struct {
 // - The total number of tokens saved across all repeated phrases
 // - An error if file reading or tokenization fails
 func (cfg *Config) Analyze() (map[string]int, int, error) {
-	if cfg.DictEntryCost == 0 {
-		cfg.DictEntryCost = DefaultDictEntryCost
-	}
-
 	tokens, err := Tokenize(cfg.FilePath, cfg.ModelName)
 	if err != nil {
 		return nil, 0, err
 	}
 
 	repeats := CountPhraseRepetition(tokens, cfg.PhraseLength)
-	savings := ComputeSavingsByPhrase(repeats, cfg.DictEntryCost)
-	total := ComputeTotalSavings(repeats, cfg.DictEntryCost)
+	savings := ComputeSavingsByPhrase(repeats, DefaultDictEntryCost)
+	total := ComputeTotalSavings(repeats, DefaultDictEntryCost)
 
 	return savings, total, nil
 }

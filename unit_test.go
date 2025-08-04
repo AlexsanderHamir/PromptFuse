@@ -8,10 +8,9 @@ const testFile = "test_prompt.txt"
 
 func TestAnalyze(t *testing.T) {
 	cfg := Config{
-		FilePath:      testFile,
-		ModelName:     "gpt-4",
-		PhraseLength:  2,
-		DictEntryCost: 4,
+		FilePath:     testFile,
+		ModelName:    "gpt-4",
+		PhraseLength: 2,
 	}
 
 	savingsMap, total, err := cfg.Analyze()
