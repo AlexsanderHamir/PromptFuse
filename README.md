@@ -61,8 +61,6 @@ You start to save tokens only when a phrase appears more than 4 times, and every
 - Target size (optimized): 7,138 tokens
 - Savings: 881 tokens (\~11.0% reduction)
 
-This approach is a concept for efficient prompt token compression and could be extended or integrated into tooling for token-aware prompt optimization.
-
 ## 🛠️ Small API to Estimate Compression Benefits
 
 TokenSpan offers a simple API to analyze any text file and estimate whether dictionary compression would save tokens. It identifies frequently repeated phrases and computes potential token savings, helping you decide if applying dictionary encoding is worthwhile before transforming your prompts.
